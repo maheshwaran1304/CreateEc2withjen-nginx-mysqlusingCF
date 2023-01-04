@@ -1,0 +1,30 @@
+Resources:
+  MyNewEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      AvailabilityZone: ap-south-1b
+      ImageId: ami-07ffb2f4d65357b42
+      InstanceType: t2.micro
+      SubnetId: subnet-0589f5b5c42365507
+      SecurityGroupIds:
+        - sg-0256f03842cce74ee
+      UserData:
+        Fn::Base64: !Sub |
+            #!/bin/bash
+            sudo apt-get update
+            sleep 20
+            sudo apt-get install nginx -y
+            sleep 20
+            sudo systemctl start nginx.service
+            sudo apt install mysql-server -y
+            sleep 20
+            sudo systemctl start mysql.service
+            sleep 20
+            sudo apt-get install -y openjdk-11-jdk
+            sleep 20
+            sudo apt-get install -y git maven
+            sleep 20
+            wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+            sleep 20
+            java -jar jenkins.war
+            sleep 30
